@@ -16,50 +16,41 @@ export interface CustomUser {
     token?: string | null;
 }
 
-export const authOptions: AuthOptions = {
+export const authOption: AuthOptions = {
     pages: {
         signIn: "/"
     },
 
     callbacks: {
-
-        async signIn({ user, account, profile, email, credentials }) {
-            return true
+        async jwt({ token, user }) {
+            if (user) {
+                token.user = user;
+            }
+            return token;
         },
 
         async session({
             session,
             token,
             user,
-        }: {
-            session: CustomSession;
-            token: JWT;
-            user: CustomUser;
         }) {
             session.user = token.user as CustomUser;
             return session;
         },
     },
 
-    async jwt({ token, user, account, profile, isNewUser }) {
-        if (user) {
-            token.user = user
-        }
-        return token
-    }
-},
-
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID!,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-        authorization: {
-            params: {
-                prompt: "consent",
-                access_type: "offline",
-                response_type: "code",
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code",
+                }
             }
-        }
         })
     ]
+
 }
