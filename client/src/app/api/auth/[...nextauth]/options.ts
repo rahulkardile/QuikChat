@@ -22,6 +22,13 @@ export const authOption: AuthOptions = {
     },
 
     callbacks: {
+
+        async signIn({ user, account,  }) {
+            console.log("User data: " + user);
+            console.log("account data: " + account);
+            return true;
+        },
+
         async jwt({ token, user }) {
             if (user) {
                 token.user = user;
