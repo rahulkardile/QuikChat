@@ -43,7 +43,7 @@ class authController {
                 id: findUser.id
             }
 
-            const token = jwt.sign(JWTPayload, JWT_SECRET ? JWT_SECRET : "1",{
+            const token = jwt.sign(JWTPayload, JWT_SECRET as string,{
                 expiresIn: "365d"
             })
 
