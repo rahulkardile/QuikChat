@@ -1,7 +1,6 @@
 import { LOGIN_URL } from "@/lib/apiEndPoint";
 import axios from "axios";
 import { Account, AuthOptions, ISODateString } from "next-auth";
-import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
 export interface CustomSession {
@@ -23,11 +22,11 @@ export const authOption: AuthOptions = {
         signIn: "/"
     },
 
-    callbacks: {        
+    callbacks: {
 
         async signIn({ user, account, }: { user: CustomUser, account: Account | null }) {
             console.log("inside of callback");
-            
+
             try {
 
                 console.log("User data: " + user);
@@ -43,15 +42,13 @@ export const authOption: AuthOptions = {
 
                 const { data, status } = await axios.post(LOGIN_URL, payload);
 
-                
-                    console.log(data);
+                console.log(data);
 
-                    user.id = data.user.id.toString();
-                    user.token = data.user.token
-                    user.provider = data.user.provider
+                user.id = data?.user?.id?.toString();
+                user.token = data?.user?.token;
+                user.provider = data?.user?.provider;
 
-                    return true;
-               
+                return true;
 
             } catch (error) {
                 console.log(error);

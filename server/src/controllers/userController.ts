@@ -16,8 +16,16 @@ class authController {
         try {
         
             const { name, email, provider, oauth_id, image }: LoginPayloadType = req.body;
-            const JWT_SECRET = process.env.JWT_SECRET;
 
+            if(!name || !email || !provider || !oauth_id){
+
+                console.log(req.body);
+                return res.status(402).json({
+                    success: false,
+                    message: "Something is missing!"
+                })
+            }
+  
             let findUser = await prisma.user.findUnique({
                 where: {
                     email
@@ -43,7 +51,7 @@ class authController {
                 id: findUser.id
             }
 
-            const token = jwt.sign(JWTPayload, JWT_SECRET as string,{
+            const token = jwt.sign(JWTPayload, process.env.JWT_SECRET as string,{
                 expiresIn: "365d"
             })
 
