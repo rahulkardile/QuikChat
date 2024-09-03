@@ -25,13 +25,8 @@ export const authOption: AuthOptions = {
     callbacks: {
 
         async signIn({ user, account, }: { user: CustomUser, account: Account | null }) {
-            console.log("inside of callback");
 
             try {
-
-                console.log("User data: " + user);
-                console.log("account data: " + account);
-
                 const payload = {
                     email: user.email,
                     name: user.name,
