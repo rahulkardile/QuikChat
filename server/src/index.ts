@@ -19,4 +19,15 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api", authRoute);
 
+app.use("*", (req, res, next) => {
+  try {
+    res.status(404).json({
+      success: true,
+      message: "route not found!"
+    })
+  } catch (error) {
+    next(error);
+  }
+})
+
 app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
