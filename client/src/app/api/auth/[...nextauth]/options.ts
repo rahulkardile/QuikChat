@@ -1,4 +1,6 @@
-import { AuthOptions, ISODateString } from "next-auth";
+import { LOGIN_URL } from "@/lib/apiEndPoint";
+import axios from "axios";
+import { Account, AuthOptions, ISODateString } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
@@ -21,12 +23,40 @@ export const authOption: AuthOptions = {
         signIn: "/"
     },
 
-    callbacks: {
+    callbacks: {        
 
-        async signIn({ user, account,  }) {
-            console.log("User data: " + user);
-            console.log("account data: " + account);
-            return true;
+        async signIn({ user, account, }: { user: CustomUser, account: Account | null }) {
+            console.log("inside of callback");
+            
+            try {
+
+                console.log("User data: " + user);
+                console.log("account data: " + account);
+
+                const payload = {
+                    email: user.email,
+                    name: user.name,
+                    oauth_id: account?.providerAccountId,
+                    provider: account?.provider,
+                    image: user?.image,
+                }
+
+                const { data, status } = await axios.post(LOGIN_URL, payload);
+
+                
+                    console.log(data);
+
+                    user.id = data.user.id.toString();
+                    user.token = data.user.token
+                    user.provider = data.user.provider
+
+                    return true;
+               
+
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
         },
 
         async jwt({ token, user }) {

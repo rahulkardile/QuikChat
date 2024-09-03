@@ -5,8 +5,14 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import LoginModal from "../auth/LoginModal";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/options";
+import LogoutModal from "../auth/LogoutModal";
 // import LoginModal from "../auth/LoginModal";
+
 export default function Navbar({ user }: { user?: CustomUser }) {
+
+  console.log(" here is user " + JSON.stringify(user));
+
+
   return (
     <nav className="p-6 flex justify-between items-center bg-white shadow-sm">
       <h1 className="text-xl md:text-2xl font-extrabold">QuickChat</h1>
@@ -16,9 +22,12 @@ export default function Navbar({ user }: { user?: CustomUser }) {
         {!user ? (
           <LoginModal />
         ) : (
-          <Link href="/dashboard">
-            <Button>Dashboard</Button>
-          </Link>
+          <>
+            <Link href="/dashboard">
+              <Button>Dashboard</Button>
+            </Link>
+            <LogoutModal />
+          </>
         )}
       </div>
     </nav>

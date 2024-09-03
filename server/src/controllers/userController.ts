@@ -6,7 +6,7 @@ interface LoginPayloadType {
     name: string;
     email: string;
     provider: string;
-    auth_id: string;
+    oauth_id: string;
     image?: string;
 }
 
@@ -15,7 +15,7 @@ class authController {
     static async login(req: Request, res:Response, next: NextFunction){
         try {
         
-            const { name, email, provider, auth_id, image }: LoginPayloadType = req.body;
+            const { name, email, provider, oauth_id, image }: LoginPayloadType = req.body;
             const JWT_SECRET = process.env.JWT_SECRET;
 
             let findUser = await prisma.user.findUnique({
@@ -30,7 +30,7 @@ class authController {
                         name,
                         email,
                         provider,
-                        oauth_id: auth_id,
+                        oauth_id,
                         image: image ? image : '',
                         
                     }
