@@ -1,0 +1,61 @@
+import { Request, Response, NextFunction } from "express"
+import prisma from "../config/db_config";
+import jwt from "jsonwebtoken";
+
+interface LoginPayloadType {
+    name: string;
+    email: string;
+    provider: string;
+    auth_id: string;
+    image?: string;
+}
+
+class authController {
+
+    static async login(req: Request, res:Response, next: NextFunction){
+        try {
+        
+            const { name, email, provider, auth_id, image }: LoginPayloadType = req.body;
+            const JWT_SECRET = process.env.JWT_SECRET;
+
+            let findUser = await prisma.user.findUnique({
+                where: {
+                    email
+                }
+            });
+
+            if(!findUser){
+                findUser = await prisma.user.create({
+                    data: {
+                        name,
+                        email,
+                        provider,
+                        oauth_id: auth_id,
+                        image: image ? image : '',
+                        
+                    }
+                })
+            }
+
+            let JWTPayload = {
+                name,
+                email,
+                id: findUser.id
+            }
+
+            const token = jwt.sign(JWTPayload, JWT_SECRET ? JWT_SECRET : "1",{
+                expiresIn: "365d"
+            })
+
+            return res.status(201).json({
+                ...findUser,
+                token: `Bearer ${token}`
+            });
+
+        } catch (error) {
+            next(error);
+        }
+    }
+}
+
+export default authController;
