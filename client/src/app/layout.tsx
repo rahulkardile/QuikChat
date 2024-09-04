@@ -6,6 +6,7 @@ import SessionProvider from "@/providers/sessionProvider";
 import Navbar from "@/components/base/Navbar";
 import { authOption, CustomSession } from "./api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default async function RootLayout({
           )}
         >
           <Navbar  user={session?.user}/>
+          <Toaster richColors duration={10000} />
           {children}</body>
       </SessionProvider>
     </html>

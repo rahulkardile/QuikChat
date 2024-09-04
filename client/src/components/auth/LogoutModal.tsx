@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,23 +14,20 @@ import {
 import { signOut } from 'next-auth/react'
 import { Button } from '../ui/button'
 
-const LogoutModal = () => {
+const LogoutModal = ({open, setOpen}:{open: boolean, setOpen: Dispatch<SetStateAction<boolean>>}) => {
     return (
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-                <Button>Sign Out</Button>
-            </AlertDialogTrigger>
+        <AlertDialog open={open} onOpenChange={setOpen}>
+            {/* <AlertDialogTrigger>Sign Out</AlertDialogTrigger> */}
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Do You Wan't To Sign Out!</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be Undu. This will permanently delete your account
-                        and remove your data from our servers.
+                        This action cannot be undone. This will permanently remove your accout from  the browser.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={()=> signOut()}>Continue</AlertDialogAction>
+                    <AlertDialogAction onClick={()=> signOut({redirect: true, callbackUrl: "/"})}>Continue</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
