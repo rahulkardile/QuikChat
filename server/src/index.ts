@@ -1,9 +1,10 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import "dotenv/config";
 import cors from "cors";
 
 // route import
 import authRoute from "./routes/app.routes";
+import { CustomError } from "./utils/errorHandler";
 
 const app: Application = express();
 const PORT = process.env.PORT || 3001;
@@ -29,5 +30,17 @@ app.use("*", (req, res, next) => {
     next(error);
   }
 })
+
+app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "internel server error"
+
+  return res.status(500).json({
+      success: false,
+      statusCode,
+      message
+  });
+})
+
 
 app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
