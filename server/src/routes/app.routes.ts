@@ -8,8 +8,11 @@ const router = Router();
 router.post("/auth/login", authController.login)
 
 // Chat Group route
-router.post("/chat-group", authMiddleware, ChatGroupController.store);
+router.get("/chat-group/:id", authMiddleware, ChatGroupController.show);
 router.get("/all-chat-group", authMiddleware, ChatGroupController.index);
+router.post("/chat-group", authMiddleware, ChatGroupController.store);
+router.put("/chat-group/update", authMiddleware, ChatGroupController.update);
+router.delete("/chat-group/delete/:id", authMiddleware, ChatGroupController.destroy);
 
 export default router;
 
