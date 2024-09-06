@@ -9,6 +9,7 @@ router.post("/auth/login", authController.login)
 
 // Chat Group route
 router.post("/chat-group", authMiddleware, ChatGroupController.store);
+router.get("/all-chat-group", authMiddleware, ChatGroupController.index);
 
 export default router;
 
