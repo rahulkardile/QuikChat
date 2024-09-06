@@ -9,15 +9,15 @@ interface LoginPayloadType {
     oauth_id: string;
     image?: string;
 }
-
+const year = 1000 * 60 * 60 * 24 * 365;
 class authController {
 
-    static async login(req: Request, res:Response, next: NextFunction){
+    static async login(req: Request, res: Response, next: NextFunction) {
         try {
-        
+
             const { name, email, provider, oauth_id, image }: LoginPayloadType = req.body;
 
-            if(!name || !email || !provider || !oauth_id){
+            if (!name || !email || !provider || !oauth_id) {
 
                 console.log(req.body);
                 return res.status(402).json({
@@ -25,14 +25,14 @@ class authController {
                     message: "Something is missing!"
                 })
             }
-  
+
             let findUser = await prisma.user.findUnique({
                 where: {
                     email
                 }
             });
 
-            if(!findUser){
+            if (!findUser) {
                 findUser = await prisma.user.create({
                     data: {
                         name,
@@ -40,7 +40,7 @@ class authController {
                         provider,
                         oauth_id,
                         image: image ? image : '',
-                        
+
                     }
                 })
             }
@@ -51,11 +51,11 @@ class authController {
                 id: findUser.id
             }
 
-            const token = jwt.sign(JWTPayload, process.env.JWT_SECRET as string,{
+            const token = jwt.sign(JWTPayload, process.env.JWT_SECRET as string, {
                 expiresIn: "365d"
             })
 
-            return res.status(201).json({
+            return res.cookie("quick_auth", token, { secure: true, maxAge: year }).status(201).json({
                 ...findUser,
                 token: `Bearer ${token}`
             });

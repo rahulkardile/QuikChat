@@ -1,7 +1,9 @@
+
 import { getServerSession } from 'next-auth'
 import React from 'react'
 import { authOption, CustomSession } from '../api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export default async function dashboard() {
 
@@ -12,6 +14,10 @@ export default async function dashboard() {
   }
 
   return (
-    <div>dashboard</div>
+    <div>
+      <p>{JSON.stringify(session.user)}</p>
+      <br />
+      dashboard
+    </div>
   )
 }
