@@ -11,8 +11,6 @@ import ProfileMenu from "../dashboard/ProfileMenu";
 
 export default function Navbar({ user }: { user?: CustomUser }) {
 
-  console.log(" here is user " + JSON.stringify(user));
-
   return (
     <nav className="p-6 flex justify-between items-center bg-white shadow-sm px-12 pr-16">
       <h1 className="text-xl md:text-2xl font-extrabold">QuickChat</h1>
