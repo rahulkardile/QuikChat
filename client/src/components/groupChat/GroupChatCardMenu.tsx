@@ -34,22 +34,22 @@ export default function GroupChatCardMenu({
     <>
       {deleteDialog && (
         <Suspense fallback={<p>Loading...</p>}>
-          {/* <DeleteChatGroup
-            // open={deleteDialog}
+          <DeleteChatGroup
+            open={deleteDialog}
             setOpen={setDeleteDialog}
             groupId={group.id}
             token={user.token!}
-          /> */}
+          />
         </Suspense>
       )}
       {editDialoag && (
         <Suspense fallback={<p>Loading...</p>}>
-          {/* <EditGroupChat
+          <EditGroupChat
             open={editDialoag}
             setOpen={setEditDialog}
             user={user}
             group={group}
-          /> */}
+          />
         </Suspense>
       )}
 

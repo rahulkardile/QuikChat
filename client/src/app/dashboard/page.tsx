@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import CreateChat from '@/components/groupChat/CreateChat';
 import { fetchChatGroups } from '@/fetch/fetchGroup';
 import { TChatGroups } from '../../../types';
+import GroupChatCard from '@/components/groupChat/GroupChatCard';
 
 export default async function dashboard() {
 
@@ -26,6 +27,8 @@ export default async function dashboard() {
       <div className="flex justify-end mt-5 mr-9">
         <CreateChat user={session.user} />
       </div>
+
+      <GroupChatCard />
 
       <h3>Dashbord</h3>
 
