@@ -5,6 +5,8 @@ import { authOption, CustomSession } from '../api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import CreateChat from '@/components/groupChat/CreateChat';
+import { fetchChatGroups } from '@/fetch/fetchGroup';
+import { TChatGroups } from '../../../types';
 
 export default async function dashboard() {
 
@@ -14,14 +16,18 @@ export default async function dashboard() {
     return redirect("/");
   }
 
+  const groups: Array<TChatGroups> | [] = await fetchChatGroups(session.user.token!);
+
+  console.log(groups);
+
   return (
     <div className='container'>
-      
+
       <div className="flex justify-end mt-5 mr-9">
         <CreateChat user={session.user} />
       </div>
 
-<h3>Dashbord</h3>
+      <h3>Dashbord</h3>
 
     </div>
   )

@@ -16,7 +16,7 @@ import { Input } from '../ui/input';
 import { CustomUser } from '@/app/api/auth/[...nextauth]/options';
 import { toast, Toaster } from 'sonner';
 import axios, { AxiosError } from 'axios';
-import { CHAT_GROUP_URL } from '@/lib/apiEndPoint';
+import { CREATE_CHAT_GROUP_URL } from '@/lib/apiEndPoint';
 import { headers } from 'next/headers';
 
 export default function CreateChat({ user }: { user: CustomUser }) {
@@ -31,7 +31,7 @@ export default function CreateChat({ user }: { user: CustomUser }) {
         try {
 
             setLoading(true);
-            const { data } = await axios.post(CHAT_GROUP_URL, { ...payload, user_id: user.id }, {
+            const { data } = await axios.post(CREATE_CHAT_GROUP_URL, { ...payload, user_id: user.id }, {
                 headers: {
                     authorization: user.token
                 }
