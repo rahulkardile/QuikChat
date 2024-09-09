@@ -18,6 +18,7 @@ import { toast, Toaster } from 'sonner';
 import axios, { AxiosError } from 'axios';
 import { CREATE_CHAT_GROUP_URL } from '@/lib/apiEndPoint';
 import { headers } from 'next/headers';
+import { clearCache } from '@/actions/common';
 
 export default function CreateChat({ user }: { user: CustomUser }) {
 
@@ -37,7 +38,8 @@ export default function CreateChat({ user }: { user: CustomUser }) {
                 }
             })
 
-            if(data.success == true){
+            if (data.success == true) {
+                clearCache("dashboard");
                 setLoading(false);
                 setopen(false);
                 toast.success(data.message)
