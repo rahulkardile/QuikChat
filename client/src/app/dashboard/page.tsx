@@ -22,13 +22,19 @@ export default async function dashboard() {
   console.log(groups);
 
   return (
-    <div className='container'>
+    <div className='container m-auto'>
 
-      <div className="flex justify-end mt-5 mr-9">
+      <div className="flex justify-end my-5 mr-9">
         <CreateChat user={session.user} />
       </div>
 
-      <GroupChatCard />
+      {/* If Groups */}
+      <div className="grid grid-cols-1 p-4 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {groups.length > 0 &&
+          groups.map((item, index) => (
+            <GroupChatCard group={item} key={index} user={session?.user!} />
+          ))}
+      </div>
 
       <h3>Dashbord</h3>
 
