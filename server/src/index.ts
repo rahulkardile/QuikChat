@@ -2,6 +2,8 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import "dotenv/config";
 import cors from "cors";
 import helmet from "helmet";
+import { Server } from "socket.io";
+import { createServer } from "http";
 
 // route import
 import authRoute from "./routes/app.routes";
@@ -9,6 +11,14 @@ import { CustomError } from "./utils/errorHandler";
 
 const app: Application = express();
 const PORT = process.env.PORT || 3001;
+
+//web socket
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*"
+  }
+})
 
 // * Middleware
 app.use(cors());
@@ -45,4 +55,4 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
 })
 
 
-app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
