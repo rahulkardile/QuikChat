@@ -8,6 +8,7 @@ import { createServer } from "http";
 // route import
 import authRoute from "./routes/app.routes";
 import { CustomError } from "./utils/errorHandler";
+import { setUpSocket } from "./socket";
 
 const app: Application = express();
 const PORT = process.env.PORT || 3001;
@@ -19,6 +20,9 @@ const io = new Server(server, {
     origin: "*"
   }
 })
+
+setUpSocket(io);
+export { io };
 
 // * Middleware
 app.use(cors());
