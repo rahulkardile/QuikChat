@@ -37,8 +37,8 @@ export default function ChatBase() {
     }
 
     return (
-        <div>
-            <input placeholder='Type Message . . . ' value={message} onChange={(e) => { setMessage(e.target.value) }} />
+        <div className='flex flex-col w-1/6 gap-5 my-5'>
+            <input className='p-2' placeholder='Type Message . . . ' value={message} onChange={(e) => { setMessage(e.target.value) }} />
             <Button onClick={handleClick}>Send Message</Button>
         </div>
     )

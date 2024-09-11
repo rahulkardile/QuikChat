@@ -4,21 +4,24 @@ import cors from "cors";
 import helmet from "helmet";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import { createAdapter } from "@socket.io/redis-streams-adapter";
 
 // route import
 import authRoute from "./routes/app.routes";
 import { CustomError } from "./utils/errorHandler";
 import { setUpSocket } from "./socket";
+import redis from "./config/redis_config";
 
 const app: Application = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT ?? 3001 ?? 3002;
 
 //web socket
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "*"
-  }
+  },
+  adapter: createAdapter(redis)
 })
 
 setUpSocket(io);

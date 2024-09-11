@@ -9,7 +9,7 @@ export default function Chat({ params }: { params: { id: string } }) {
 
 
     return (
-        <div className="">
+        <div className="m-auto bg-red-200 p-2">
             <h3>Hello I am Chat . . .</h3>
             <ChatBase />
         </div>
