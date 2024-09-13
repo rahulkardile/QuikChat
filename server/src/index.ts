@@ -5,6 +5,7 @@ import helmet from "helmet";
 import { Server } from "socket.io";
 import { createServer } from "http";
 import { createAdapter } from "@socket.io/redis-streams-adapter";
+import { instrument } from "@socket.io/admin-ui";
 
 // route import
 import authRoute from "./routes/app.routes";
@@ -19,10 +20,16 @@ const PORT = process.env.PORT ?? 3001 ?? 3002;
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*"
+    origin: ["http://localhost:3000", "https://admin.socket.io"],
+    credentials: true
   },
   adapter: createAdapter(redis)
 })
+
+instrument(io, {
+  auth: false,
+  mode: "development",
+});
 
 setUpSocket(io);
 export { io };
@@ -55,9 +62,9 @@ app.use((err: CustomError, req: Request, res: Response, next: NextFunction) => {
   const message = err.message || "internel server error"
 
   return res.status(500).json({
-      success: false,
-      statusCode,
-      message
+    success: false,
+    statusCode,
+    message
   });
 })
 

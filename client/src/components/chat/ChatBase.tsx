@@ -6,13 +6,15 @@ import { v4 as uuidv4 } from "uuid"
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 
-export default function ChatBase() {
+export default function ChatBase({groupId}:{groupId: string}) {
 
     const [message, setMessage] = useState<string>("")
 
     let socket = useMemo(() => {
         const socket = getSocket();
-
+        socket.auth = {
+            room: groupId
+        }
         return socket.connect();
     }, [])
 
@@ -22,6 +24,7 @@ export default function ChatBase() {
 
         socket.on("message", (data: any) => {
             console.log("The Socket message is ", data);
+            alert(data.message)
         });
 
         return () => {
