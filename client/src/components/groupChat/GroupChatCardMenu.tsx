@@ -13,9 +13,10 @@ import EditGroupChat from "./EditGroupChat";
 import { toast } from "sonner";
 import Env from "@/lib/env";
 import { TChatGroups } from "../../../types";
+import Link from "next/link";
 const DeleteChatGroup = dynamic(() => import("./DeleteChatGroup"));
 
-export default function GroupChatCardMenu({
+export default function xGroupChatCardMenu({
   group,
   user,
 }: {
@@ -59,6 +60,9 @@ export default function GroupChatCardMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem onClick={handleCopy}>Copy</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={`/chat/${group.id}`}>Open Chat</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setEditDialog(true)}>
             Edit
           </DropdownMenuItem>
