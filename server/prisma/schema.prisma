@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -29,6 +28,7 @@ model ChatGroup {
   passcode   String      @db.VarChar(30)
   created_at DateTime    @default(now())
   GroupUser  GroupUser[]
+  Chats      Chats[]
 
   @@index([created_at])
   @@map("chat_groups")
@@ -42,4 +42,16 @@ model GroupUser {
   created_at DateTime  @default(now())
 
   @@map("group users")
+}
+
+model Chats {
+  id         String    @id @default(uuid()) @db.Uuid
+  group      ChatGroup @relation(fields: [group_id], references: [id], onDelete: Cascade)
+  group_id   String    @db.Uuid
+  message    String?
+  name       String
+  created_at DateTime  @default(now())
+
+  @@index([created_at])
+  @@map("chats")
 }
