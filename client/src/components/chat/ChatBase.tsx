@@ -1,10 +1,9 @@
 "use client"
 import { getSocket } from '@/lib/socket.config'
 import { useSession } from 'next-auth/react';
-import React, { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { v4 as uuidv4 } from "uuid"
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 
 export default function ChatBase({groupId}:{groupId: string}) {
 
@@ -24,7 +23,6 @@ export default function ChatBase({groupId}:{groupId: string}) {
 
         socket.on("message", (data: any) => {
             console.log("The Socket message is ", data);
-            alert(data.message)
         });
 
         return () => {

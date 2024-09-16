@@ -8,7 +8,7 @@ const router = Router();
 router.post("/auth/login", authController.login)
 
 // Chat Group route
-router.get("/chat-group/:id", authMiddleware, ChatGroupController.show);
+router.get("/chat-group/:id", ChatGroupController.show);
 router.get("/all-chat-group", authMiddleware, ChatGroupController.index);
 router.post("/chat-group", authMiddleware, ChatGroupController.store);
 router.put("/chat-group/update/:id", authMiddleware, ChatGroupController.update);
